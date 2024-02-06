@@ -16,11 +16,11 @@ add_custom_target(
     ${CMAKE_CURRENT_LIST_DIR}/deploy_version.cmake
   BYPRODUCTS version_deploy.c)
 
-macro(ADD_DEPLOY_TARGET_FOR target_name image_basename images_folder)
+macro(ADD_DEPLOY_TARGET_FOR target_name image_basename images_folder script)
   add_custom_target(
     deploy_${target_name}
     COMMAND
-      ${CMAKE_SOURCE_DIR}/scripts/deploy_with_crc_and_version.sh
+      ${script}
       # ${images_folder} $<TARGET_FILE_DIR:${target_name}>/${target_name}.bin
       ${images_folder} $<TARGET_FILE:${target_name}> ${image_basename}
       ${CMAKE_BINARY_DIR}/next_deploy_version.txt

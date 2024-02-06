@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.24)
 
-project(versioned_target C CXX)
+project(cmake_versioning C CXX)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_C_STANDARD 11)
 
@@ -17,5 +17,7 @@ add_executable(versioned_${PROJECT_NAME} $<TARGET_OBJECTS:application>
                                          version_deploy.c)
 set_property(TARGET versioned_${PROJECT_NAME} PROPERTY EXCLUDE_FROM_ALL TRUE)
 
-add_deploy_target_for(versioned_${PROJECT_NAME} GMAPP
-                      ${CMAKE_SOURCE_DIR}/images/${CMAKE_BUILD_TYPE})
+add_deploy_target_for(
+  versioned_${PROJECT_NAME} GMAPP
+  ${CMAKE_SOURCE_DIR}/images/${CMAKE_BUILD_TYPE}
+  ${CMAKE_SOURCE_DIR}/scripts/deploy_with_crc_and_version.sh)
