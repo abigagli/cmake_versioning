@@ -1,9 +1,5 @@
-#cmakedefine DEPLOYED_MAJOR "@DEPLOYED_MAJOR@"
-#cmakedefine DEPLOYED_MINOR "@DEPLOYED_MINOR@"
-
-
 __attribute__((weak)) char const*
 deploy_version()
 {
-    return DEPLOYED_MAJOR"."DEPLOYED_MINOR;
+    return "@DEPLOYED_MAJOR@.@DEPLOYED_MINOR@";
 }
