@@ -8,10 +8,10 @@ add_custom_target(
   _generate_git_sha
   COMMAND
     ${CMAKE_COMMAND}
-    -DVERSION_TEMPLATE_FILE=${CMAKE_SOURCE_DIR}/cmake/versioning/version.c.in
-    -DVERSION_SOURCE_FILE=version.c -P
+    -DVERSION_TEMPLATE_FILE=${CMAKE_SOURCE_DIR}/cmake/versioning/version_git_only.c.in
+    -DVERSION_SOURCE_FILE=version_git_only.c -P
     ${CMAKE_SOURCE_DIR}/cmake/versioning/git_sha.cmake
-  BYPRODUCTS version.c)
+  BYPRODUCTS version_git_only.c)
 
 # add_custom_target( _generate_deploy_version COMMAND ${CMAKE_COMMAND}
 # -DVERSION_TEMPLATE_FILE=${CMAKE_CURRENT_SOURCE_DIR}/version/version.c.in
@@ -19,7 +19,7 @@ add_custom_target(
 # ${CMAKE_SOURCE_DIR}/cmake/deploy_version.cmake BYPRODUCTS
 # ${VERSION_SOURCE_FILE} COMMENT "Regenerating ${VERSION_SOURCE_FILE}")
 
-set(APP_SOURCES main.cpp version.c)
+set(APP_SOURCES main.cpp version_git_only.c)
 
 add_library(application OBJECT ${APP_SOURCES})
 target_include_directories(application
