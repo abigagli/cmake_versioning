@@ -1,5 +1,6 @@
 __attribute__((weak)) char const*
 deploy_version()
 {
-    return "@DEPLOYED_MAJOR@.@DEPLOYED_MINOR@";
+    return &"@(#)VER=${DEPLOYED_MAJOR}.${DEPLOYED_MINOR}"[4];
+    // return "@DEPLOYED_MAJOR@.@DEPLOYED_MINOR@";
 }
