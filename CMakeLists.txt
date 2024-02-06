@@ -4,12 +4,28 @@ project(versioned_target C CXX)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_C_STANDARD 11)
 
-set(APP_SOURCES main.cpp version/version.c)
+add_custom_target(
+  _generate_git_sha
+  COMMAND
+    ${CMAKE_COMMAND}
+    -DVERSION_TEMPLATE_FILE=${CMAKE_SOURCE_DIR}/cmake/versioning/version.c.in
+    -DVERSION_SOURCE_FILE=version.c -P
+    ${CMAKE_SOURCE_DIR}/cmake/versioning/git_sha.cmake
+  BYPRODUCTS version.c)
+
+# add_custom_target( _generate_deploy_version COMMAND ${CMAKE_COMMAND}
+# -DVERSION_TEMPLATE_FILE=${CMAKE_CURRENT_SOURCE_DIR}/version/version.c.in
+# -DVERSION_SOURCE_FILE=${VERSION_SOURCE_FILE} -P
+# ${CMAKE_SOURCE_DIR}/cmake/deploy_version.cmake BYPRODUCTS
+# ${VERSION_SOURCE_FILE} COMMENT "Regenerating ${VERSION_SOURCE_FILE}")
+
+set(APP_SOURCES main.cpp version.c)
 
 add_library(application OBJECT ${APP_SOURCES})
+target_include_directories(application
+                           PUBLIC ${CMAKE_SOURCE_DIR}/cmake/versioning)
 add_executable(${PROJECT_NAME} $<TARGET_OBJECTS:application>)
 
-add_executable(versioned_${PROJECT_NAME} $<TARGET_OBJECTS:application>
-                                         version/version_deployed.c)
-# target_link_libraries(versioned_${PROJECT_NAME}.elf PRIVATE QORVO::dwt_uwb)
-set_property(TARGET versioned_${PROJECT_NAME} PROPERTY EXCLUDE_FROM_ALL TRUE)
+# add_executable(versioned_${PROJECT_NAME} $<TARGET_OBJECTS:application>
+# version/version_deployed.c) set_property(TARGET versioned_${PROJECT_NAME}
+# PROPERTY EXCLUDE_FROM_ALL TRUE)

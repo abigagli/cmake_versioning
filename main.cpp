@@ -1,4 +1,4 @@
-#include "version/version.h"
+#include "version.h"
 
 #include <iostream>
 
