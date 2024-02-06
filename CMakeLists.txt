@@ -13,11 +13,14 @@ add_custom_target(
     ${CMAKE_SOURCE_DIR}/cmake/versioning/git_sha.cmake
   BYPRODUCTS version_git_only.c)
 
-# add_custom_target( _generate_deploy_version COMMAND ${CMAKE_COMMAND}
-# -DVERSION_TEMPLATE_FILE=${CMAKE_CURRENT_SOURCE_DIR}/version/version.c.in
-# -DVERSION_SOURCE_FILE=${VERSION_SOURCE_FILE} -P
-# ${CMAKE_SOURCE_DIR}/cmake/deploy_version.cmake BYPRODUCTS
-# ${VERSION_SOURCE_FILE} COMMENT "Regenerating ${VERSION_SOURCE_FILE}")
+add_custom_target(
+  _generate_deploy_version
+  COMMAND
+    ${CMAKE_COMMAND}
+    -DVERSION_TEMPLATE_FILE=${CMAKE_SOURCE_DIR}/cmake/versioning/version_deploy.c.in
+    -DVERSION_SOURCE_FILE=version_deploy.c -P
+    ${CMAKE_SOURCE_DIR}/cmake/versioning/deploy_version.cmake
+  BYPRODUCTS version_deploy.c)
 
 set(APP_SOURCES main.cpp version_git_only.c)
 
@@ -26,6 +29,6 @@ target_include_directories(application
                            PUBLIC ${CMAKE_SOURCE_DIR}/cmake/versioning)
 add_executable(${PROJECT_NAME} $<TARGET_OBJECTS:application>)
 
-# add_executable(versioned_${PROJECT_NAME} $<TARGET_OBJECTS:application>
-# version/version_deployed.c) set_property(TARGET versioned_${PROJECT_NAME}
-# PROPERTY EXCLUDE_FROM_ALL TRUE)
+add_executable(versioned_${PROJECT_NAME} $<TARGET_OBJECTS:application>
+                                         version_deploy.c)
+set_property(TARGET versioned_${PROJECT_NAME} PROPERTY EXCLUDE_FROM_ALL TRUE)
