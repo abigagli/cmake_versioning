@@ -16,10 +16,10 @@ add_custom_target(
     ${CMAKE_CURRENT_LIST_DIR}/generate_deploy_version.cmake
   BYPRODUCTS version_deploy.c)
 
-macro(ADD_DEPLOY_TARGET_FOR target_name image_basename images_folder script)
+macro(ADD_DEPLOY_TARGET_FOR target_name origin_file image_basename images_folder script)
   add_custom_target(
     deploy_${target_name}
-    COMMAND ${script} ${images_folder} $<TARGET_FILE:${target_name}>
+    COMMAND ${script} ${images_folder} ${origin_file}
             ${image_basename} ${CMAKE_BINARY_DIR}/next_deploy_version.txt
     DEPENDS ${target_name})
 endmacro()

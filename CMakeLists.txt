@@ -18,6 +18,6 @@ add_executable(versioned_${PROJECT_NAME} $<TARGET_OBJECTS:application>
 set_property(TARGET versioned_${PROJECT_NAME} PROPERTY EXCLUDE_FROM_ALL TRUE)
 
 add_deploy_target_for(
-  versioned_${PROJECT_NAME} GMAPP
+  versioned_${PROJECT_NAME} $<TARGET_FILE:versioned_${PROJECT_NAME}> GMAPP
   ${CMAKE_SOURCE_DIR}/images/${CMAKE_BUILD_TYPE}
   ${CMAKE_SOURCE_DIR}/scripts/deploy_with_crc_and_version.sh)
